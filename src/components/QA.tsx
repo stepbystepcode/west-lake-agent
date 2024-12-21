@@ -1,9 +1,8 @@
 // src/components/QA.tsx
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { TbHistory, TbPlus, TbSend2 } from 'react-icons/tb';
 import { Button } from '@/components/ui/button';
 import ChatBubble from './ChatBubble';
-import { cn } from '@/lib/utils';
 import { Input } from "@/components/ui/input";
 import { useTranslation } from 'react-i18next';
 
