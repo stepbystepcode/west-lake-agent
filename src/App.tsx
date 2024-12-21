@@ -15,7 +15,8 @@ import {
   TbUser,
   TbUserFilled
 } from "react-icons/tb";
-import { Home } from './Home';
+import { Home } from './components/Home';
+import { QA } from './components/QA';
 import { useTranslation } from 'react-i18next';
 import './App.css';
 
@@ -102,10 +103,6 @@ const Navigation: React.FC = () => {
   return <div className="p-4">{t('Navigation')}</div>;
 };
 
-const QA: React.FC = () => {
-  const { t } = useTranslation();
-  return <div className="p-4">{t('QA')}</div>;
-};
 
 const Records: React.FC = () => {
   const { t } = useTranslation();

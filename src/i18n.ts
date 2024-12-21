@@ -13,6 +13,12 @@ const resources = {
       "Records": "Records",
       "Materials": "Materials",
       "Profile": "Profile",
+      "search_placeholder": "Search",
+      "language_switch": "中文",
+      "new_conversation": "New Conversation",
+      "history": "History",
+      "placeholder_message": "Type your message...",
+      "smart_assistant": "Smart Assistant"
     }
   },
   "zh-Hans": {
@@ -23,6 +29,12 @@ const resources = {
       "Records": "记录",
       "Materials": "资料",
       "Profile": "我的",
+      "search_placeholder": "搜索",
+      "language_switch": "English",
+      "new_conversation": "新对话",
+      "history": "历史记录",
+      "placeholder_message": "输入您的消息...",
+      "smart_assistant": "智能助手"
     }
   }
 };
