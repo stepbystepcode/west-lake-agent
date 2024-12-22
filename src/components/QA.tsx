@@ -83,7 +83,7 @@ export const QA = () => {
 
   return (
     <div className={`flex flex-col h-full overflow-hidden bg-red-400`}>
-      <header className="flex justify-between items-center px-4 fixed top-[0] w-full h-18 z-10">
+      <header className="flex justify-between items-center px-4 fixed top-[0] w-full h-16 z-10">
         {/* 左侧历史记录按钮 */}
         <div className="w-12">
           <Button variant="ghost" size="icon" onClick={handleHistory} aria-label={t('history')}>
@@ -105,7 +105,7 @@ export const QA = () => {
       </header>
 
       {/* 对话区域 - 调整底部边距 */}
-      <div className="flex-1 p-4 overflow-y-auto mt-16 bg-blue-300"> {/* 增加底部边距，给输入框留空间 */}
+      <div className="flex-1 p-4 overflow-y-auto my-16 bg-blue-300"> {/* 增加底部边距，给输入框留空间 */}
         {messages.map((msg, index) => (
           <ChatBubble key={index} message={msg.message} isUser={msg.isUser} />
         ))}
