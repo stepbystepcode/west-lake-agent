@@ -6,13 +6,36 @@ import ChatBubble from './ChatBubble';
 import { useTranslation } from 'react-i18next';
 import { Textarea } from "@/components/ui/textarea"
 
+const isIOS = () => /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+
+const watchKeyBoard = (callback: (isShow: boolean) => void) => {
+  if (isIOS()) {
+    document.body.addEventListener('focusin', () => {
+      callback(true);
+    });
+    document.body.addEventListener('focusout', () => {
+      callback(false);
+    });
+  } else {
+    const originalHeight = window.innerHeight;
+    window.addEventListener('resize', () => {
+      const resizeHeight = window.innerHeight;
+      if (resizeHeight < originalHeight) {
+        callback(true);
+      } else {
+        callback(false);
+      }
+    });
+  }
+};
+
 export const QA = () => {
   const { t } = useTranslation();
 
   const [messages, setMessages] = useState<{ message: string; isUser: boolean }[]>([]);
   const [input, setInput] = useState('');
-  const [keyboardStatus, setKeyboardStatus] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [isKeyboardShow, setIsKeyboardShow] = useState(false);
   
   // 滚动到最新消息
   const scrollToBottom = () => {
@@ -21,7 +44,30 @@ export const QA = () => {
 
   useEffect(() => {
     scrollToBottom();
+    watchKeyBoard(handleKeyboardChange);
   }, [messages]);
+
+  const handleKeyboardChange = (status: boolean) => {
+    setIsKeyboardShow(status); // 更新键盘状态
+    setTimeout(() => {
+      const container = document.getElementById('container');
+      if (status) {
+        const viewportHeight = window.visualViewport?.height || window.innerHeight;
+        if (container) {
+          container.style.height = `${viewportHeight}px`;
+        }
+        window.scrollTo(0, 0);
+        // 禁用全局滚动
+        document.body.style.overflow = 'hidden';
+      } else {
+        if (container) {
+          container.style.height = `100vh`;
+        }
+        // 启用全局滚动
+        document.body.style.overflow = 'auto';
+      }
+    }, 100);
+  };
 
   const handleSend = () => {
     if (input.trim() === '') return;
@@ -49,41 +95,10 @@ export const QA = () => {
     // 这里可以实现历史记录的查看逻辑
     alert(t('history'));
   };
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const handleFocus = () => {
-    setKeyboardStatus(true);
-    const textarea = textareaRef.current;
-    
-    if (textarea) {
-      // 设置初始透明度为0
-      textarea.style.opacity = '0';
-      
-      // 使用setTimeout将透明度设置回1
-      setTimeout(() => {
-        textarea.style.opacity = '1';
-      }, 10);
-    }
-  }
-  const [height, setHeight] = useState(window.visualViewport?.height ?? window.innerHeight);
-  const [initHeight,setInitHeight] = useState(window.visualViewport?.height ?? window.innerHeight);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setHeight(window.visualViewport?.height ?? window.innerHeight);
-    };
-
-    // 监听窗口大小变化
-    window.visualViewport?.addEventListener('resize', handleResize);
-
-    // 清理监听器
-    return () => {
-      window.visualViewport?.removeEventListener('resize', handleResize);
-    };
-  }, []);
 
   return (
-    <div className={`flex flex-col h-full overflow-hidden bg-red-400`}>
-      <header className="flex justify-between items-center px-4 fixed top-[0] w-full h-16 z-10">
+    <div id="container" className="flex flex-col h-screen">
+      <header className="flex justify-between items-center px-4 h-16 z-10">
         {/* 左侧历史记录按钮 */}
         <div className="w-12">
           <Button variant="ghost" size="icon" onClick={handleHistory} aria-label={t('history')}>
@@ -96,45 +111,29 @@ export const QA = () => {
           <h1 className="text-xl font-semibold">{t('smart_assistant')}</h1>
         </div>
 
-        {/* 右侧保留空白或其他图标（如果需要） */}
+        {/* 右侧保留空白或其他图标 */}
         <div className="w-12">
           <Button variant="ghost" size="icon" onClick={handleNewConversation} aria-label={t('new_conversation')}>
             <TbPlus size={20} />
           </Button>
-          </div> {/* 占位，保持左侧按钮和中间标题的对齐 */}
+        </div>
       </header>
 
-      {/* 对话区域 - 调整底部边距 */}
-      <div className="flex-1 p-4 overflow-y-auto my-16 bg-blue-300"> {/* 增加底部边距，给输入框留空间 */}
+      {/* 对话区域 */}
+      <div className="flex-1 p-4 overflow-y-auto pb-20">
         {messages.map((msg, index) => (
           <ChatBubble key={index} message={msg.message} isUser={msg.isUser} />
         ))}
-        {/* {height.toString()} */}
-        initHeight: {initHeight}px
-
-        <br />
-        height: {height}px
-        <br />
-        initHeight-height: {initHeight-height}px
-
         <div ref={messagesEndRef} />
       </div>
 
-      {/* 输入区域 - 调整位置到 TabBar 上方 */}
-      <footer className={`p-4 fixed bottom-20 w-full bg-white border-t ${ keyboardStatus ? `bottom-[323px] transition-all z-[1000]`:'' }`}>
+      {/* 输入区域 */}
+      <footer className={`p-4 w-full bg-white border-t transition-all z-[1000] ${isKeyboardShow?'':'relative bottom-20'}`}>
         <div className="relative flex items-center max-w-full">
           <Textarea
-            ref={textareaRef}
             value={input}
             onChange={e => setInput(e.target.value)}
-            onKeyDown={e => {
-              if (e.key === 'Enter') {
-                handleSend();
-              }
-            }}
-            onFocus={handleFocus}
-            onBlur={() => setKeyboardStatus(false)}
-            // placeholder={t('placeholder_message')}
+            placeholder={t('placeholder_message')}
             className="flex-1 pr-12 rounded-xl bg-gray-100 placeholder:text-gray-700 focus-visible:ring-0"
           />
           <Button 
