@@ -114,7 +114,7 @@ export const QA = () => {
       </div>
 
       {/* 输入区域 - 调整位置到 TabBar 上方 */}
-      <footer className={`p-4 fixed bottom-20 w-full bg-white border-t ${ keyboardStatus ? `bottom-[${initHeight-height}px] transition-all z-[1000]`:'' }`}>
+      <footer className={`p-4 ${keyboardStatus ? 'static' : 'fixed'} bottom-20 w-full bg-white border-t ${ keyboardStatus ? `bottom-[${initHeight-height}px] transition-all z-[1000]`:'' }`}>
         <div className="relative flex items-center max-w-full">
           <Textarea
             ref={textareaRef}
@@ -125,6 +125,7 @@ export const QA = () => {
                 handleSend();
               }
             }}
+            onClick={handleFocus}
             onFocus={handleFocus}
             onBlur={() => setKeyboardStatus(false)}
             // placeholder={t('placeholder_message')}
