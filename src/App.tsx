@@ -74,7 +74,7 @@ const TabBar: React.FC = () => {
   ];
 
   return (
-    <div className="flex p-4 bottom-0 w-full fixed bg-white border-t">
+    <div className="flex p-4 bottom-0 w-full fixed bg-white border-t md:flex sm:hidden">
       {tabs.map((tab) => {
         const isActive = location.pathname === tab.path;
         const IconComponent = isActive ? tab.filledIcon : tab.icon;
@@ -123,7 +123,7 @@ const Profile: React.FC = () => {
 const App: React.FC = () => {
   return (
     <Router>
-      <div className="App pb-16"> {/* 增加底部内边距以避免TabBar遮挡内容 */}
+      <div className="App min-h-screen flex flex-col">
         <Routes>
           <Route path="/home" element={<Home />} />
           <Route path="/navigation" element={<Navigation />} />

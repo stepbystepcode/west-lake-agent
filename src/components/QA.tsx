@@ -1,18 +1,19 @@
 // src/components/QA.tsx
 import { useState, useRef, useEffect } from 'react';
-import { TbHistory, TbPlus, TbSend2 } from 'react-icons/tb';
+import { TbHistory, TbPlus, TbArrowUp } from 'react-icons/tb';
 import { Button } from '@/components/ui/button';
 import ChatBubble from './ChatBubble';
-import { Input } from "@/components/ui/input";
 import { useTranslation } from 'react-i18next';
+import { Textarea } from "@/components/ui/textarea"
 
 export const QA = () => {
   const { t } = useTranslation();
 
   const [messages, setMessages] = useState<{ message: string; isUser: boolean }[]>([]);
   const [input, setInput] = useState('');
+  const [keyboardStatus, setKeyboardStatus] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
+  
   // 滚动到最新消息
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -27,7 +28,9 @@ export const QA = () => {
 
     // 添加用户消息
     setMessages(prev => [...prev, { message: input, isUser: true }]);
-    setInput('');
+    setTimeout(() => {
+      setInput('');
+    }, 100);
 
     // 模拟 LLM 回复（实际应用中应调用API）
     setTimeout(() => {
@@ -46,11 +49,41 @@ export const QA = () => {
     // 这里可以实现历史记录的查看逻辑
     alert(t('history'));
   };
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const handleFocus = () => {
+    setKeyboardStatus(true);
+    const textarea = textareaRef.current;
+    
+    if (textarea) {
+      // 设置初始透明度为0
+      textarea.style.opacity = '0';
+      
+      // 使用setTimeout将透明度设置回1
+      setTimeout(() => {
+        textarea.style.opacity = '1';
+      }, 10);
+    }
+  }
+  const [height, setHeight] = useState(window.visualViewport?.height ?? window.innerHeight);
+  const [initHeight] = useState(window.visualViewport?.height ?? window.innerHeight);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setHeight(window.visualViewport?.height ?? window.innerHeight);
+    };
+
+    // 监听窗口大小变化
+    window.visualViewport?.addEventListener('resize', handleResize);
+
+    // 清理监听器
+    return () => {
+      window.visualViewport?.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   return (
-    <div className="flex flex-col flex-1 bg-white pb-16"> {/* 添加 pb-16 确保内容不被底部标签栏遮挡 */}
-      {/* 顶部栏 */}
-      <header className="flex justify-between items-center p-4 bg-gray-100">
+    <div className={`flex flex-col h-screen bg-red-400 h-[${height}px] overflow-hidden`}>
+      <header className="flex justify-between items-center p-4 fixed top-[0] w-full z-10">
         {/* 左侧历史记录按钮 */}
         <div className="w-12">
           <Button variant="ghost" size="icon" onClick={handleHistory} aria-label={t('history')}>
@@ -71,30 +104,40 @@ export const QA = () => {
           </div> {/* 占位，保持左侧按钮和中间标题的对齐 */}
       </header>
 
-      {/* 对话区域 */}
-      <div className="flex-1 p-4 overflow-y-auto">
+      {/* 对话区域 - 调整底部边距 */}
+      <div className="flex-1 p-4 overflow-y-auto mt-16 mb-24 bg-blue-300"> {/* 增加底部边距，给输入框留空间 */}
         {messages.map((msg, index) => (
           <ChatBubble key={index} message={msg.message} isUser={msg.isUser} />
         ))}
+        {height.toString()}
         <div ref={messagesEndRef} />
       </div>
 
-      {/* 输入区域 */}
-      <footer className="mb-4 p-4 flex items-center space-x-2 fixed bottom-16 w-full bg-opacity-90">
-        <Input
-          value={input}
-          onChange={e => setInput(e.target.value)}
-          onKeyDown={e => {
-            if (e.key === 'Enter') {
-              handleSend();
-            }
-          }}
-          placeholder={t('placeholder_message')}
-          className="flex-1 rounded-full border border-gray-300 focus:border-blue-500 focus:ring-0 focus:outline-none"
-        />
-        <Button onClick={handleSend} className="ml-2 bg-blue-500 hover:bg-blue-600 text-white rounded-full">
-        <TbSend2 size={20} />
-        </Button>
+      {/* 输入区域 - 调整位置到 TabBar 上方 */}
+      <footer className={`p-4 fixed bottom-20 w-full bg-white border-t ${ keyboardStatus ? `bottom-[${initHeight-height}px] transition-all z-[1000]`:'' }`}>
+        <div className="relative flex items-center max-w-full">
+          <Textarea
+            ref={textareaRef}
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            onKeyDown={e => {
+              if (e.key === 'Enter') {
+                handleSend();
+              }
+            }}
+            onFocus={handleFocus}
+            onBlur={() => setKeyboardStatus(false)}
+            // placeholder={t('placeholder_message')}
+            className="flex-1 pr-12 rounded-xl bg-gray-100 placeholder:text-gray-700 focus-visible:ring-0"
+            style={{ animation: 'pwf 0.01s'}}
+          />
+          <Button 
+            onClick={handleSend} 
+            className="absolute right-2 bg-blue-500 hover:bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0"
+          >
+            <TbArrowUp size={18} />
+          </Button>
+        </div>
       </footer>
     </div>
   );

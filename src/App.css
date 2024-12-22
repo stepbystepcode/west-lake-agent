@@ -1,8 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* ... */
+@keyframes pwf {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
 
 @layer base {
   :root {
