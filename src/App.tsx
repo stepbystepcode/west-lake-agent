@@ -1,5 +1,5 @@
 // App.tsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import {
   TbHome,
@@ -32,6 +32,19 @@ interface TabItem {
 const TabBar: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
+  const [height, setHeight] = useState(window.innerHeight);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setHeight(window.innerHeight);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   // 定义所有的标签项
   const tabs: TabItem[] = [
@@ -74,7 +87,7 @@ const TabBar: React.FC = () => {
   ];
 
   return (
-    <div className="flex p-4 bottom-0 w-full fixed bg-white border-t md:flex sm:hidden">
+    <div className={`flex p-4 bottom-0 w-full fixed bg-white border-t md:flex sm:hidden ${height < 500 ? 'hidden' : ''}`}>
       {tabs.map((tab) => {
         const isActive = location.pathname === tab.path;
         const IconComponent = isActive ? tab.filledIcon : tab.icon;
