@@ -16,6 +16,9 @@ import {
   TbUserFilled
 } from "react-icons/tb";
 import { Home } from './components/Home';
+import { Navigation } from './components/Navigation';
+import { Files } from './components/Files';
+import { Records } from './components/Records';
 import { QA } from './components/QA';
 import { useTranslation } from 'react-i18next';
 import './App.css';
@@ -87,7 +90,7 @@ const TabBar: React.FC = () => {
   ];
 
   return (
-    <div className={`flex p-4 bottom-0 w-full fixed bg-white border-t md:flex sm:hidden ${height < 500 ? 'hidden' : ''}`}>
+    <div className={`flex p-4 bottom-0 w-full fixed z-[999] bg-white border-t md:flex sm:hidden ${height < 500 ? 'hidden' : ''}`}>
       {tabs.map((tab) => {
         const isActive = location.pathname === tab.path;
         const IconComponent = isActive ? tab.filledIcon : tab.icon;
@@ -111,21 +114,6 @@ const TabBar: React.FC = () => {
 
 // 各个页面组件
 
-const Navigation: React.FC = () => {
-  const { t } = useTranslation();
-  return <div className="p-4">{t('Navigation')}</div>;
-};
-
-
-const Records: React.FC = () => {
-  const { t } = useTranslation();
-  return <div className="p-4">{t('Records')}</div>;
-};
-
-const Materials: React.FC = () => {
-  const { t } = useTranslation();
-  return <div className="p-4">{t('Materials')}</div>;
-};
 
 const Profile: React.FC = () => {
   const { t } = useTranslation();
@@ -142,7 +130,7 @@ const App: React.FC = () => {
           <Route path="/navigation" element={<Navigation />} />
           <Route path="/q-a" element={<QA />} />
           <Route path="/records" element={<Records />} />
-          <Route path="/materials" element={<Materials />} />
+          <Route path="/materials" element={<Files />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="*" element={<Home />} />
         </Routes>

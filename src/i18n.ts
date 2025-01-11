@@ -18,7 +18,22 @@ const resources = {
       "new_conversation": "New Conversation",
       "history": "History",
       "placeholder_message": "Type your message...",
-      "smart_assistant": "Smart Assistant"
+      "smart_assistant": "Smart Assistant",
+      "outdoor_mode": "Outdoor mode",
+      "indoor_mode": "Indoor mode",
+      "search_files": "Search files...",
+      "all_files": "All Files",
+      "documents": "Documents",
+      "images": "Images",
+      "videos": "Videos",
+      "others": "Others",
+      // Meeting Records translations
+      "Meeting Records": "Meeting Records",
+      "Search by title or location": "Search by title or location",
+      "Product Planning Meeting": "Product Planning Meeting",
+      "Team Weekly Sync": "Team Weekly Sync",
+      "Conference Room A": "Conference Room A",
+      "Online - Zoom": "Online - Zoom"
     }
   },
   "zh-Hans": {
@@ -34,7 +49,22 @@ const resources = {
       "new_conversation": "新对话",
       "history": "历史记录",
       "placeholder_message": "输入您的消息...",
-      "smart_assistant": "智能助手"
+      "smart_assistant": "智能助手",
+      "outdoor_mode": "室外模式",
+      "indoor_mode": "室内模式",
+      "search_files": "搜索文件...",
+      "all_files": "全部文件",
+      "documents": "文档",
+      "images": "图片",
+      "videos": "视频",
+      "others": "其他",
+      // Meeting Records translations
+      "Meeting Records": "会议记录",
+      "Search by title or location": "搜索标题或地点",
+      "Product Planning Meeting": "产品规划会议",
+      "Team Weekly Sync": "团队周会",
+      "Conference Room A": "会议室A",
+      "Online - Zoom": "线上会议 - Zoom"
     }
   }
 };
