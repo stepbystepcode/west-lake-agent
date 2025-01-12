@@ -80,7 +80,7 @@ export const Files = () => {
   return (
     <div className="flex flex-col h-full pb-[72px]">
       {/* Search and Filter Section */}
-      <div className="sticky top-0 bg-white z-10 p-4 space-y-4 border-b">
+      <div className="fixed top-0 left-0 right-0 bg-white z-10 p-4 space-y-4 border-b">
         <div className="relative">
           <TbSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
           <Input
@@ -110,14 +110,14 @@ export const Files = () => {
       </div>
 
       {/* File List */}
-      <div className="flex-1 overflow-y-auto p-4">
+      <div className="flex-1 overflow-y-auto p-4 mt-[132px]">
         <div className="space-y-2">
           {filteredFiles.map((file) => {
             const FileIcon = getFileIcon(file.type);
             return (
               <div
                 key={file.id}
-                className="flex items-center space-x-4 p-3 rounded-lg hover:bg-gray-50 transition-colors"
+                className="flex items-center space-x-4 p-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
               >
                 <FileIcon className="w-8 h-8 text-gray-500" />
                 <div className="flex-1 min-w-0">

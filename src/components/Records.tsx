@@ -9,6 +9,7 @@ import {
   TbSortAscending,
   TbSortDescending,
 } from "react-icons/tb";
+import { useNavigate } from "react-router-dom";
 
 interface MeetingRecord {
   id: string;
@@ -20,6 +21,7 @@ interface MeetingRecord {
 
 export const Records = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [sortAscending, setSortAscending] = useState(true);
 
@@ -55,13 +57,13 @@ export const Records = () => {
   return (
     <div className="px-4 pt-8 w-full mx-auto overflow-hidden">
       <div className="mb-4">
-        <h1 className="text-2xl font-bold my-4">{t('Meeting Records')}</h1>
+        <h1 className="text-2xl font-bold my-4">{t('meeting_records')}</h1>
         <div className="flex gap-4 items-center">
           <div className="relative flex-1">
             <TbSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <Input
               className="pl-10"
-              placeholder={t('Search by title or location')}
+              placeholder={t('search_by_title_or_location')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -83,9 +85,10 @@ export const Records = () => {
         {filteredRecords.map((record) => (
           <div
             key={record.id}
-            className="p-4 rounded-lg border border-gray-200 hover:border-gray-300 transition-colors w-full overflow-hidden"
+            className="p-4 rounded-lg border border-gray-200 hover:border-gray-300 transition-colors w-full overflow-hidden cursor-pointer"
+            onClick={() => navigate(`/meetings/${record.id}`)}
           >
-            <h3 className="text-lg font-semibold mb-2 truncate">{record.title}</h3>
+            <h3 className="text-lg font-semibold mb-2 truncate">{t(record.title.toLowerCase().replace(/ /g, '_'))}</h3>
             <div className="flex flex-col gap-2 text-sm text-gray-600 w-full">
               <div className="flex items-center gap-2 w-full">
                 <TbCalendar className="w-4 h-4 flex-shrink-0" />
@@ -97,7 +100,7 @@ export const Records = () => {
               </div>
               <div className="flex items-center gap-2 w-full">
                 <TbMapPin className="w-4 h-4 flex-shrink-0" />
-                <span className="truncate w-full">{record.location}</span>
+                <span className="truncate w-full">{t(record.location.toLowerCase().replace(/ /g, '_'))}</span>
               </div>
             </div>
           </div>

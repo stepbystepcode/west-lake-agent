@@ -19,6 +19,7 @@ import { Home } from './components/Home';
 import { Navigation } from './components/Navigation';
 import { Files } from './components/Files';
 import { Records } from './components/Records';
+import { MeetingDetail } from './components/MeetingDetail';
 import { QA } from './components/QA';
 import { useTranslation } from 'react-i18next';
 import './App.css';
@@ -53,37 +54,37 @@ const TabBar: React.FC = () => {
   const tabs: TabItem[] = [
     {
       path: "/home",
-      label: t('Home'),
+      label: t('home'),
       icon: TbHome,
       filledIcon: TbHomeFilled
     },
     {
       path: "/navigation",
-      label: t('Navigation'),
+      label: t('navigation'),
       icon: TbCompass,
       filledIcon: TbCompassFilled
     },
     {
       path: "/q-a",
-      label: t('QA'),
+      label: t('qa'),
       icon: TbMessageChatbot,
       filledIcon: TbMessageChatbotFilled
     },
     {
       path: "/records",
-      label: t('Records'),
+      label: t('records'),
       icon: TbClock,
       filledIcon: TbClockFilled
     },
     {
       path: "/materials",
-      label: t('Materials'),
+      label: t('materials'),
       icon: TbFolder,
       filledIcon: TbFolderFilled
     },
     {
       path: "/profile",
-      label: t('Profile'),
+      label: t('profile'),
       icon: TbUser,
       filledIcon: TbUserFilled
     }
@@ -131,6 +132,7 @@ const App: React.FC = () => {
           <Route path="/q-a" element={<QA />} />
           <Route path="/records" element={<Records />} />
           <Route path="/materials" element={<Files />} />
+          <Route path="/meetings/:id" element={<MeetingDetail />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="*" element={<Home />} />
         </Routes>
