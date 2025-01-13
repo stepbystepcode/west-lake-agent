@@ -5,9 +5,10 @@ import { cn } from '@/lib/utils'; // 辅助函数，用于条件类名
 interface ChatBubbleProps {
   message: string;
   isUser: boolean;
+  isTyping?: boolean;
 }
 
-const ChatBubble: React.FC<ChatBubbleProps> = ({ message, isUser }) => {
+const ChatBubble: React.FC<ChatBubbleProps> = ({ message, isUser, isTyping }) => {
   return (
     <div
       className={cn(
@@ -25,6 +26,13 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message, isUser }) => {
         )}
       >
         {message}
+        {isTyping && (
+          <span className="inline-flex ml-2">
+            <span className="animate-bounce delay-0 text-lg">·</span>
+            <span className="animate-bounce delay-100 text-lg">·</span>
+            <span className="animate-bounce delay-200 text-lg">·</span>
+          </span>
+        )}
       </div>
     </div>
   );

@@ -20,6 +20,17 @@ export default defineConfig(async () => ({
     port: 1420,
     strictPort: true,
     host: host || false,
+    proxy: {
+      '/ws': {
+        target: 'ws://localhost:1421',
+        ws: true,
+        changeOrigin: true
+      },
+      '/ws-url': {
+        target: 'http://localhost:1421',
+        changeOrigin: true
+      }
+    },
     hmr: host
       ? {
           protocol: "ws",

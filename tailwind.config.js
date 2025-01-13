@@ -4,6 +4,20 @@ export default {
     content: ["./index.html", "./src/**/*.{ts,tsx,js,jsx}"],
   theme: {
   	extend: {
+      keyframes: {
+        bounce: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-5px)' }
+        }
+      },
+      animation: {
+        bounce: 'bounce 1s infinite'
+      },
+      transitionDelay: {
+        '0': '0ms',
+        '100': '100ms',
+        '200': '200ms',
+      },
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
@@ -55,4 +69,3 @@ export default {
   },
   plugins: [require("tailwindcss-animate")],
 }
-
