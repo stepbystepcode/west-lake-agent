@@ -19,10 +19,10 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message, isUser, isTyping }) =>
     >
       <div
         className={cn(
-          'max-w-xs md:max-w-md px-4 py-2 rounded-lg shadow-md',
+          'max-w-xs md:max-w-md px-4 py-2 rounded-lg shadow-md backdrop-blur-md',
           isUser
-            ? 'bg-blue-500 text-white'
-            : 'bg-gray-200 text-gray-800'
+            ? 'bg-blue-500/70 text-white border border-blue-300/50'
+            : 'bg-white/40 text-gray-800 border border-white/40'
         )}
       >
         {message}

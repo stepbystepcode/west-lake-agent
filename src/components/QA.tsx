@@ -241,8 +241,17 @@ export const QA = () => {
   };
 
   return (
-    <div id="container" className="flex flex-col h-screen">
-      <header className="flex justify-between items-center px-4 h-16 z-10">
+    <div 
+      id="container" 
+      className="flex flex-col h-screen"
+      style={{
+        backgroundImage: "url('https://www.gcsis.cn/img/index_bg.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat"
+      }}
+    >
+      <header className="flex justify-between items-center px-4 h-16 z-10 bg-white/30 backdrop-blur-md border-b border-white/40">
         {/* 左侧历史记录按钮 */}
         <div className="w-12">
           <Button 
@@ -291,13 +300,13 @@ export const QA = () => {
       </div>
 
       {/* 输入区域 */}
-      <footer className={`p-4 w-full bg-white border-t transition-all z-[1000] ${isKeyboardShow?'':'relative bottom-20'}`}>
+      <footer className={`p-4 w-full bg-white/50 backdrop-blur-md border-t border-white/40 transition-all z-[1000] ${isKeyboardShow?'':'relative bottom-20'}`}>
         <div className="relative flex items-center max-w-full">
           <Textarea
             value={input}
             onChange={e => setInput(e.target.value)}
             placeholder={t('placeholder_message')}
-            className="flex-1 pr-12 rounded-xl bg-gray-100 placeholder:text-gray-700 focus-visible:ring-0"
+            className="flex-1 pr-12 rounded-xl bg-white/30 backdrop-blur-sm placeholder:text-gray-700 focus-visible:ring-0 border border-white/40"
             disabled={isConnecting || !wsUrl || !wsRef.current || wsRef.current.readyState !== WebSocket.OPEN}
           />
           <Button 

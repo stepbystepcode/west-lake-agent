@@ -55,14 +55,22 @@ export const Records = () => {
     });
 
   return (
-    <div className="px-4 pt-8 w-full mx-auto overflow-hidden">
+    <div 
+      className="px-4 pt-8 w-full mx-auto overflow-hidden min-h-screen" 
+      style={{
+        backgroundImage: "url('https://www.gcsis.cn/img/index_bg.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat"
+      }}
+    >
       <div className="mb-4">
         <h1 className="text-2xl font-bold my-4">{t('meeting_records')}</h1>
         <div className="flex gap-4 items-center">
           <div className="relative flex-1">
             <TbSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <Input
-              className="pl-10"
+              className="pl-10 bg-white/30 backdrop-blur-md border border-white/40 text-gray-800"
               placeholder={t('search_by_title_or_location')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -70,7 +78,7 @@ export const Records = () => {
           </div>
           <button
             onClick={() => setSortAscending(!sortAscending)}
-            className="p-2 rounded hover:bg-gray-100"
+            className="p-2 rounded hover:bg-white/20 bg-white/30 backdrop-blur-md border border-white/40"
           >
             {sortAscending ? (
               <TbSortAscending className="w-5 h-5" />
@@ -85,7 +93,7 @@ export const Records = () => {
         {filteredRecords.map((record) => (
           <div
             key={record.id}
-            className="p-4 rounded-lg border border-gray-200 hover:border-gray-300 transition-colors w-full overflow-hidden cursor-pointer"
+            className="p-4 rounded-lg border border-white/40 bg-white/30 backdrop-blur-md hover:bg-white/40 transition-colors w-full overflow-hidden cursor-pointer shadow-sm"
             onClick={() => navigate(`/meetings/${record.id}`)}
           >
             <h3 className="text-lg font-semibold mb-2 truncate">{t(record.title.toLowerCase().replace(/ /g, '_'))}</h3>

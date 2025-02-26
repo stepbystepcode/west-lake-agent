@@ -1,40 +1,43 @@
 import {
   TbSearch,
   TbWorld,
-  TbCoffee,
-  TbBuildingSkyscraper,
-  TbSettings,
-  TbDeviceGamepad2,
+  TbCompass,
+  TbNotebook,
+  TbCalendar,
 } from "react-icons/tb";
+import { RiTranslateAi } from "react-icons/ri";
 import { useTranslation } from "react-i18next";
-import { Input } from "@/components/ui/input";
+import { data } from "@/data/data";
+import Carousel from "./Carousel";
+
 const ServicesSection = () => {
+  const { t } = useTranslation();
   const services = [
     {
       id: 1,
-      name: "Food",
-      icon: TbCoffee,
+      name: t('navigation'),
+      icon: TbCompass,
       fromColor: "from-orange-200",
       iconColor: "text-orange-500",
     },
     {
       id: 2,
-      name: "Hotels",
-      icon: TbBuildingSkyscraper,
+      name: t('meetings'),
+      icon: TbCalendar,
       fromColor: "from-sky-200",
       iconColor: "text-sky-500",
     },
     {
       id: 3,
-      name: "Services",
-      icon: TbSettings,
+      name: t('tours'),
+      icon: TbNotebook,
       fromColor: "from-green-200",
       iconColor: "text-green-500",
     },
     {
       id: 4,
-      name: "Recreation",
-      icon: TbDeviceGamepad2,
+      name: t('translation'),
+      icon: RiTranslateAi,
       fromColor: "from-purple-200",
       iconColor: "text-purple-500",
     },
@@ -55,7 +58,7 @@ const ServicesSection = () => {
               aria-label={service.name}
               title={service.name}
             />
-            <span className="text-center font-medium text-sm text-gray-700">
+            <span className="text-center font-medium text-sm text-gray-700 text-nowrap">
               {service.name}
             </span>
           </div>
@@ -74,44 +77,99 @@ export const Home = () => {
   };
 
   return (
-    <>
-      <header className="flex justify-center items-center gap-4 p-4 text-white">
-        <div
-          onClick={toggleLanguage}
-          className="flex justify-center items-center cursor-pointer w-28 h-10 transition-all duration-300"
-          role="button"
-          tabIndex={0}
-        >
-          <TbWorld size={20} strokeWidth={1} className="mr-2" />
-          <span className="text-sm">{t("language_switch")}</span>
+    <div className="relative">
+      {/* Carousel as background */}
+      <div className="absolute top-0 left-0 right-0 z-0">
+        <Carousel />
+      </div>
+      
+      {/* Header with transparent background */}
+      <header className="relative z-10 flex justify-between items-center p-4 bg-transparent">
+        <div className="flex items-center gap-2">
+          <h1 className="text-white font-bold text-lg px-3 py-1 rounded-full bg-black/30 backdrop-blur-sm shadow-sm">WEST LAKE</h1>
         </div>
-        <div className="relative w-full">
-          <TbSearch
-            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300"
-            size={20}
-          />
-          <Input
-            placeholder={t("search_placeholder")}
-            className="rounded-full text-gray-300 pl-10 placeholder:text-gray-300 focus-visible:ring-0"
-          />
+        <div className="flex items-center gap-2">
+          <button
+            onClick={toggleLanguage}
+            className="w-8 h-8 rounded-full bg-white flex items-center justify-center"
+          >
+            <TbWorld className="text-black" />
+          </button>
+          <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center">
+            <TbSearch className="text-black" />
+          </div>
         </div>
       </header>
-      <img
-        src="/home.webp"
-        alt="home"
-        className="absolute top-0 z-[-100] w-full rounded-br-[1.7rem] h-64"
-      />
-      <div className="mt-[calc(16rem-72px)]">
-        <div className="bg-black h-[1.7rem]"></div>
-        <div className="bg-white h-[1.7rem] rounded-tl-[1.7rem] relative top-[-1.7rem]"></div>
-        <div className="mt-[-2rem] mx-4">
-          <ServicesSection />
 
-          <div className="rounded-lg bg-gradient-to-b from-gray-100 to-transparent h-20 p-4 mt-5">
-            123
+      {/* Content area */}
+      <div className="pt-[12.8rem]">
+        <div className="bg-white rounded-t-[1.7rem] relative -mt-10 shadow-lg">
+          <div className="px-4 pt-6">
+            <ServicesSection />
+            
+            <div className="rounded-lg bg-gradient-to-b from-blue-50 to-transparent p-4 mt-5">
+              {data.map((dateGroup, index) => (
+                <div key={index} className="mb-3">
+                  <h3 className="text-lg font-medium text-gray-800 mb-1">{dateGroup.dateName}</h3>
+                  <div className="space-y-2">
+                    {dateGroup.topAgendaList && dateGroup.topAgendaList.length > 0 && (
+                      <div>
+                        <h4 className="text-sm font-medium text-gray-600 mb-1">{t('morning_events')}</h4>
+                        {dateGroup.topAgendaList.map((event, eventIndex) => (
+                          <div key={eventIndex} className="bg-white p-2 rounded-lg shadow-sm mb-2">
+                            <div className="flex justify-between items-start">
+                              <div className="flex-1">
+                                <h5 className="font-medium text-gray-900">{event.title}</h5>
+                                <p className="text-sm text-gray-500 mt-0.5">{event.timeQuantum} | {event.site}</p>
+                              </div>
+                              {event.coverImgUrl && (
+                                <img 
+                                  src={event.coverImgUrl} 
+                                  alt={event.title} 
+                                  className="w-16 h-16 object-cover rounded-md ml-3"
+                                />
+                              )}
+                            </div>
+                            <p className="text-sm text-gray-600 mt-1 line-clamp-2">{event.agendaIntro}</p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    
+                    {dateGroup.downAgendaList && dateGroup.downAgendaList.length > 0 && (
+                      <div>
+                        <h4 className="text-sm font-medium text-gray-600 mb-1">{t('afternoon_events')}</h4>
+                        {dateGroup.downAgendaList.map((event, eventIndex) => (
+                          <div key={eventIndex} className="bg-white p-2 rounded-lg shadow-sm mb-2">
+                            <div className="flex justify-between items-start">
+                              <div className="flex-1">
+                                <h5 className="font-medium text-gray-900">{event.title}</h5>
+                                {event.timeQuantum && (
+                                  <p className="text-sm text-gray-500 mt-0.5">
+                                    {event.timeQuantum} {event.site && `| ${event.site}`}
+                                  </p>
+                                )}
+                              </div>
+                              {event.coverImgUrl && (
+                                <img 
+                                  src={event.coverImgUrl} 
+                                  alt={event.title} 
+                                  className="w-16 h-16 object-cover rounded-md ml-3"
+                                />
+                              )}
+                            </div>
+                            <p className="text-sm text-gray-600 mt-1 line-clamp-2">{event.agendaIntro}</p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };

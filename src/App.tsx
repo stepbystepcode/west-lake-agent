@@ -4,14 +4,10 @@ import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react
 import {
   TbHome,
   TbHomeFilled,
-  TbCompass,
-  TbCompassFilled,
   TbMessageChatbot,
   TbMessageChatbotFilled,
   TbClock,
   TbClockFilled,
-  TbFolder,
-  TbFolderFilled,
   TbUser,
   TbUserFilled
 } from "react-icons/tb";
@@ -21,6 +17,7 @@ import { Files } from './components/Files';
 import { Records } from './components/Records';
 import { MeetingDetail } from './components/MeetingDetail';
 import { QA } from './components/QA';
+import { Profile } from './components/Profile';
 import { useTranslation } from 'react-i18next';
 import './App.css';
 
@@ -59,12 +56,6 @@ const TabBar: React.FC = () => {
       filledIcon: TbHomeFilled
     },
     {
-      path: "/navigation",
-      label: t('navigation'),
-      icon: TbCompass,
-      filledIcon: TbCompassFilled
-    },
-    {
       path: "/q-a",
       label: t('qa'),
       icon: TbMessageChatbot,
@@ -75,12 +66,6 @@ const TabBar: React.FC = () => {
       label: t('records'),
       icon: TbClock,
       filledIcon: TbClockFilled
-    },
-    {
-      path: "/materials",
-      label: t('materials'),
-      icon: TbFolder,
-      filledIcon: TbFolderFilled
     },
     {
       path: "/profile",
@@ -116,10 +101,6 @@ const TabBar: React.FC = () => {
 // 各个页面组件
 
 
-const Profile: React.FC = () => {
-  const { t } = useTranslation();
-  return <div className="p-4">{t('Profile')}</div>;
-};
 
 // 主应用组件
 const App: React.FC = () => {

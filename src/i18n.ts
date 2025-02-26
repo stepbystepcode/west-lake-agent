@@ -47,13 +47,29 @@ const resources = {
       "location_unavailable": "Unable to get location",
       "location_timeout": "Getting location timed out",
       "location_error": "Error getting location",
-      "geolocation_not_supported": "Browser does not support geolocation"
+      "geolocation_not_supported": "Browser does not support geolocation",
+      "edit_profile": "Edit Profile",
+      "my_meetings": "My Meetings",
+      "my_bookings": "My Bookings",
+      "my_tools": "My Tools",
+      "downloaded_file": "Downloaded File",
+      "check_update": "Check Update",
+      "about_us": "About Us",
+      "tours": "Tours",
+      "favourites": "Favourites",
+      "meetings": "Meetings",
+      // Event display translations
+      "upcoming_events": "Upcoming Events",
+      "morning_events": "Morning Events",
+      "afternoon_events": "Afternoon Events",
+      "translation": "Translation",
+      "search": "Search",
     }
   },
   "zh-Hans": {
     translation: {
       "home": "首页",
-      "navigation": "导航",
+      "navigation": "路线导航",
       "qa": "问答",
       "records": "记录",
       "materials": "资料",
@@ -92,7 +108,23 @@ const resources = {
       "location_unavailable": "无法获取位置信息",
       "location_timeout": "获取位置超时",
       "location_error": "获取位置时出错",
-      "geolocation_not_supported": "浏览器不支持地理定位"
+      "geolocation_not_supported": "浏览器不支持地理定位",
+      "edit_profile": "编辑资料",
+      "my_meetings": "我的会议",
+      "my_bookings": "我的预定",
+      "my_tools": "我的工具",
+      "downloaded_file": "下载文件",
+      "check_update": "检查更新",
+      "about_us": "关于我们",
+      "tours": "大会指南",
+      "favourites": "我的收藏",
+      "translation": "实时转译",
+      "meetings": "我的会议",
+      // Event display translations
+      "upcoming_events": "大会议程",
+      "morning_events": "上午事件",
+      "afternoon_events": "下午事件",
+      "search": "搜索",
     }
   }
 };
